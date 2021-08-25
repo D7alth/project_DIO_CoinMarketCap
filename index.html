@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>CoinMarketCap</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <p class="navbar-brand ">CoinMarketCap</p>
+    </div>
+  </nav>
+    <div id="coins">
+        
+    </div>
+  
+
+
+
+<script>
+  const key = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY=******************'
+  fetch(key).then(
+    res => {
+        if(!res.ok) throw new Error('error fetching key, status : ' + res.status)
+        return res.json()
+}).then(
+    api =>{
+var dataISOAnoMes;
+var dataFormmatter; 
+var texto = '';
+for(let i = 0; i < 10; i = i + 1) {
+dataISOAnoMes = new Date(api.data[i].first_historical_data);
+console.log(api.data[i].name)
+    texto = texto + `
+    <div class="media" style="display:flex;flex-direction:row;">
+        <img src="/assets/coin.jpg" class="align-self-center mr-3" alt="coin" width="100" height="75">
+        <div class="media-body" style="padding:6px;">
+            <h5 class="mt-2">
+                ${api.data[i].name}
+            </h5>
+            <p>
+                ${api.data[i].symbol}
+                <br />
+                ${
+                    dataFormmatter = (dataISOAnoMes.getFullYear() + "-" + ((dataISOAnoMes.getMonth() + 1)) + "-" + (dataISOAnoMes.getDate() ))             
+                }
+            </p>
+         
+        </div>
+    </div>
+    `
+    document.getElementById("coins").innerHTML = texto; 
+}
+    }).catch(
+    error => {
+        console.log(error.message)
+});
+
+</script>
+
+</body>
+</html>
